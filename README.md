@@ -36,13 +36,22 @@ If you are running postgres locally sudo su - postgres
 Once connected, issue
 
 CREATE USER knowint WITH PASSWORD 'knowint';
-DROP DATABASE authSvcDev;
-CREATE DATABASE authSvcDev;
-GRANT ALL PRIVILEGES ON DATABASE authSvcDev to knowint;
-CREATE DATABASE authSvcDemo;
-GRANT ALL PRIVILEGES ON DATABASE authSvcDemo to knowint;
+DROP DATABASE authsvcdev;
+CREATE DATABASE authsvcdev;
+GRANT ALL PRIVILEGES ON DATABASE authsvcdev to knowint;
+CREATE DATABASE authsvcdemo;
+GRANT ALL PRIVILEGES ON DATABASE authsvcdemo to knowint;
 
 DB Session usually checked with
 
-psql -h localhost -U knowint authSvcDev
+psql -h localhost -U knowint authsvcdev
+
+# Installing authorization services in the database
+
+insert into oauth_authorization_service(code,base_url,client_id,redirect_url,response_type,scope) 
+values ( "google", "https://accounts.google.com/o/oauth2/v2/auth", 
+"452432600734-gg239i5odhfki1lhpt7c01pfir3267ol.apps.googleusercontent.com", 
+"http://localhost:8080/authorize/google", 
+"token", 
+"https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"); 
 

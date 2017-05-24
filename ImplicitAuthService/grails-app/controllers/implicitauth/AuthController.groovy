@@ -21,11 +21,6 @@ class AuthController {
                 '&response_type='+java.net.URLEncoder.encode('token','UTF-8')+
                 '&client_id='+java.net.URLEncoder.encode(authorization_svc.clientId,'UTF-8')
               );
-        // redirect(url:'https://accounts.google.com/o/oauth2/v2/auth'+
-        //         '?scope='+java.net.URLEncoder.encode('https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile','UTF-8')+
-        //         '&redirect_uri='+java.net.URLEncoder.encode('http://localhost:8080/authorize/google','UTF-8')+
-        //         '&response_type='+java.net.URLEncoder.encode('token','UTF-8')+
-        //         '&client_id='+java.net.URLEncoder.encode('452432600734-gg239i5odhfki1lhpt7c01pfir3267ol.apps.googleusercontent.com','UTF-8')
       }
       else {
         log.error("Unable to locate provider");

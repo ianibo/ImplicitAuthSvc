@@ -91,19 +91,16 @@ hibernate:
 dataSource:
     pooled: true
     jmxExport: true
-    driverClassName: org.h2.Driver
-    username: sa
-    password:
 
 environments:
     development:
         dataSource:
             dbCreate: update
-            url: jdbc:postgresql://pghost:5432/authSvcDev
+            url: jdbc:postgresql://pghost:5432/authsvcdev
             username: knowint
             password: knowint
             driverClassName: org.postgresql.Driver
-            dialect: com.k_int.yarm.utils.PgSQLCustomDialect
+            dialect: org.hibernate.dialect.PostgreSQLDialect
     test:
         dataSource:
             dbCreate: update
