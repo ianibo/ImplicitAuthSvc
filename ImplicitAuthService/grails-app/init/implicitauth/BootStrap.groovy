@@ -11,7 +11,7 @@ class BootStrap {
                                                scope:'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
                                                redirectUrl:'http://localhost:8080/authorize/google',
                                                clientId:'452432600734-gg239i5odhfki1lhpt7c01pfir3267ol.apps.googleusercontent.com',
-                                               responseType:).save(flush:true, failOnError:true);
+                                               responseType:'token').save(flush:true, failOnError:true);
   }
 
   def destroy = {
