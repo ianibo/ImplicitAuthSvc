@@ -23,3 +23,26 @@ Essentially https://github.com/yury-dymov/redux-oauth-client-demo.git configured
 Build/Running
 
 
+
+# DB Setup
+
+If you are running postgres inside a docker container, use
+
+psql -h localhost -U postgres
+-- You will have set a PGSql Password at install - change it from any default!
+
+If you are running postgres locally sudo su - postgres
+
+Once connected, issue
+
+CREATE USER knowint WITH PASSWORD 'knowint';
+DROP DATABASE authSvcDev;
+CREATE DATABASE authSvcDev;
+GRANT ALL PRIVILEGES ON DATABASE authSvcDev to knowint;
+CREATE DATABASE authSvcDemo;
+GRANT ALL PRIVILEGES ON DATABASE authSvcDemo to knowint;
+
+DB Session usually checked with
+
+psql -h localhost -U knowint authSvcDev
+

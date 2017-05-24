@@ -9,6 +9,7 @@ class UrlMappings {
             }
         }
 
+        "/auth/$provider"(controller:'auth', action:'redirectToIDP')
         "/auth/$provider/authorize"(controller:'auth', action:'authorize')
 
         "/"(view:"/index")
