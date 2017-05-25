@@ -28,9 +28,22 @@ class AuthController {
     }
   }
 
-  def authorize() {
+  def callback() {
+    log.debug("AuthController::callback() ${params}");
     def response = [:]
-    log.debug("AuthController::authorize() ${params}");
+
+    if ( ( params.provider?.length() > 0 )  && ( params.access_token?.length() > 0 ) ) {
+      def authorization_svc = OAuthAuthorizationService.findByCode(params.provider)
+      if ( authorization_svc != null ) {
+        def token_result = exchangeAuthCodeForToken(params.access_token,authorization_svc)
+      }
+    }
+
+    // send back a redirect containing auth_token param which contains the JWT
     render response as JSON
+  }
+
+  private def exchangeAuthCodeForToken(String token, provider_cfg) {
+    log.debug("exchangeAuthCodeForToken(${token},${provider_cfg}");
   }
 }

@@ -1,4 +1,6 @@
 ---
+server:
+    contextPath: /auth
 grails:
     profile: web
     codegen:
