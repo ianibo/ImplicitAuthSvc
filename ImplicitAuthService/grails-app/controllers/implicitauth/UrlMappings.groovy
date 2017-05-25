@@ -6,6 +6,7 @@ class UrlMappings {
 
         "/oauth/$provider"(controller:'auth', action:'redirectToIDP')
         "/oauth/$provider/callback"(controller:'auth', action:'callback')
+        "/oauth/$provider/validateToken"(controller:'auth', action:'authenticateToken')
 
 
         "/$controller/$action?/$id?(.$format)?"{

@@ -35,8 +35,8 @@ class AuthController {
     log.debug("AuthController::callback");
   }
 
-  def authenticateToken() {
-    log.debug("AuthController::callback() ${params}");
+  def validateToken() {
+    log.debug("AuthController::validateToken() ${params}");
     def response = [:]
 
     if ( ( params.provider?.length() > 0 )  && ( params.access_token?.length() > 0 ) ) {
