@@ -18,7 +18,7 @@ class AuthController {
         redirect(url:authorization_svc.baseUrl+
                 '?scope='+java.net.URLEncoder.encode(authorization_svc.scope,'UTF-8')+
                 '&redirect_uri='+java.net.URLEncoder.encode(authorization_svc.redirectUrl,'UTF-8')+
-                '&response_type='+java.net.URLEncoder.encode('token','UTF-8')+
+                '&response_type='+java.net.URLEncoder.encode('token','UTF-8')+  // token
                 '&client_id='+java.net.URLEncoder.encode(authorization_svc.clientId,'UTF-8')
               );
       }
@@ -28,7 +28,14 @@ class AuthController {
     }
   }
 
+  // The callback method is called but the browser keeps the access_token in a fragment identifier - EG
+  // http://localhost:8080/auth/oauth/google/callback#access_token=xxx&token_type=Bearer&expires_in=3600
+  // so we need to send back a script which will extract the access_token from the fragment and then call a further validate_token function
   def callback() {
+    log.debug("AuthController::callback");
+  }
+
+  def authenticateToken() {
     log.debug("AuthController::callback() ${params}");
     def response = [:]
 
