@@ -40,7 +40,7 @@ class AuthController {
   // http://localhost:8080/auth/oauth/google/callback#access_token=xxx&token_type=Bearer&expires_in=3600
   // so we need to send back a script which will extract the access_token from the fragment and then call a further validate_token function
   def callback() {
-    log.debug("AuthController::callback");
+    log.debug("AuthController::callback ${params}");
   }
 
   def validateToken() {
@@ -67,7 +67,7 @@ class AuthController {
     def jwt = createToken(user)
 
     log.debug("Redirecting...");
-    redirect(url:'http://localhost/?auth_token='+jwt);
+    redirect(url:'http://localhost:8081/?auth_token='+jwt);
   }
 
  private String createToken(user) {

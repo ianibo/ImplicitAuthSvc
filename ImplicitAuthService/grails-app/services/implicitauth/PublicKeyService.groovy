@@ -19,6 +19,7 @@ class PublicKeyService {
 
   private RsaJsonWebKey thekey = null;
   def grailsApplication
+  def authcfgService
 
   @javax.annotation.PostConstruct
   def init() {
@@ -29,7 +30,7 @@ class PublicKeyService {
     // See if the app has a public key, if not generate one and store it
     if ( thekey == null ) {
       log.debug("Creating public key");
-      Map<String, Object> keyparams = grailsApplication.config.monitorLocal_jwk
+      Map<String, Object> keyparams = authcfgService.cfg.kiauth_jwk
       thekey = new org.jose4j.jwk.RsaJsonWebKey(keyparams)
     }
     else {

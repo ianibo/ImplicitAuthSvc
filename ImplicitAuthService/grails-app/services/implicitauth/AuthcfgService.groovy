@@ -24,4 +24,8 @@ class AuthcfgService {
     log.debug("Got config: ${authConf}");
   }
 
+  def getCfg() {
+    return authConf
+  }
+
 }
