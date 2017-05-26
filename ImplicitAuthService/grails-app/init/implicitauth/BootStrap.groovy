@@ -4,6 +4,8 @@ import implicitauth.OAuthAuthorizationService
 
 class BootStrap {
 
+  def authcfgService
+
   def init = { servletContext ->
     log.debug("ImplicitAuth BootStrap::init");
 

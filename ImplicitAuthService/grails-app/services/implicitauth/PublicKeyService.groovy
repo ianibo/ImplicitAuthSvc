@@ -3,8 +3,6 @@ package implicitauth
 import org.apache.commons.codec.binary.Base64
 import grails.core.GrailsApplication
 import org.springframework.http.HttpStatus
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import java.nio.charset.StandardCharsets
 import grails.converters.*
 import groovyx.net.http.HTTPBuilder

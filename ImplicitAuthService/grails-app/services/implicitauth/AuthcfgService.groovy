@@ -10,6 +10,7 @@ import org.springframework.core.io.FileSystemResource
 @Transactional
 class AuthcfgService {
 
+  def grailsApplication
   def authConf = null;
 
   @javax.annotation.PostConstruct
@@ -17,7 +18,7 @@ class AuthcfgService {
     log.debug("Init looking for config in ${grailsApplication.config.authCfgFile}");
 
     def resource = new FileSystemResource(new File(grailsApplication.config.authCfgFile))
-    def mapPropertySource = new YamlPropertySourceLoader().load( name, resource, null/*profile*/)
+    def mapPropertySource = new YamlPropertySourceLoader().load( grailsApplication.config.authCfgFile, resource, null/*profile*/)
     authConf = new PropertySourcesConfig(mapPropertySource.getSource())
 
     log.debug("Got config: ${authConf}");

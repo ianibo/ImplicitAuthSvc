@@ -64,10 +64,10 @@ class AuthController {
     def user = [:]
     user.username="wibble"
 
-    def token = createToken(user)
+    def jwt = createToken(user)
 
     log.debug("Redirecting...");
-    redirect(url:'http://localhost/?auth_token='+token);
+    redirect(url:'http://localhost/?auth_token='+jwt);
   }
 
  private String createToken(user) {
