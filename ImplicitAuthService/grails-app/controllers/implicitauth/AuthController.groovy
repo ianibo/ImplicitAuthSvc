@@ -8,6 +8,19 @@ import org.jose4j.jwt.*
 import org.jose4j.jws.*
 
 
+
+/**
+ *  Overall flow.
+ *  Client asks for login, redux-oauth opens a popup to /auth/oauth/{provider} which arrives at redirectToIDP
+ *  redirectToIDP redirects to approproiate service - eg google
+ *  IDP Validates and if valid sends a redirect to /auth/oauth/{provider}/callback#{TOKEN}
+ *    the # prevents the JS app from detecting the TOKEN or passing it to the server
+ *    so we dispatch a script which can then access the location.href.hash containing the token (callback#access_token=xxxxx)
+ *  The script extracts the access_token
+ *
+ *
+ */
+
 class AuthController {
 
   def publicKeyService
@@ -45,6 +58,11 @@ class AuthController {
 
   def validateToken() {
     log.debug("AuthController::validateToken() ${params}");
+    def result=[:]
+    render result as JSON
+  }
+
+  def oldValidateToken() {
     def response = [:]
 
     if ( ( params.provider?.length() > 0 )  && ( params.access_token?.length() > 0 ) ) {
