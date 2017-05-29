@@ -16,7 +16,10 @@ import org.jose4j.jws.*
  *  IDP Validates and if valid sends a redirect to /auth/oauth/{provider}/callback#{TOKEN}
  *    the # prevents the JS app from detecting the TOKEN or passing it to the server
  *    so we dispatch a script which can then access the location.href.hash containing the token (callback#access_token=xxxxx)
- *  The script extracts the access_token
+ *  The script extracts the access_token and passes this back to the server which needs to create an auth_token from the access_token
+ *
+ *  In the demo app, callback causes a redirect to a URL like
+ *    auth_token=lMTuR3FqmBFHD0WD7URq9g&blank=true&client_id=UT3fEq5-vHLBqPmYvx8_pw&config=&expiry=1497272025&uid=53283 which is then picked up and used as the auth string
  *
  *
  */
@@ -58,11 +61,12 @@ class AuthController {
 
   def validateToken() {
     log.debug("AuthController::validateToken() ${params}");
-    def result=[:]
-    render result as JSON
+    def response = [:]
+    render response as JSON
   }
 
-  def oldValidateToken() {
+  def completeAuth() {
+    log.debug("AuthController::completeAuth() ${params}");
     def response = [:]
 
     if ( ( params.provider?.length() > 0 )  && ( params.access_token?.length() > 0 ) ) {
@@ -70,22 +74,25 @@ class AuthController {
       if ( authorization_svc != null ) {
         def token_result = exchangeAuthCodeForToken(params.access_token,authorization_svc)
       }
+      else {
+        log.error("Unable to locate provider");
+      }
     }
-
-    // send back a redirect containing auth_token param which contains the JWT
-    render response as JSON
+    else {
+      log.error("No provider or access token in call to validateToken");
+    }
   }
 
   private def exchangeAuthCodeForToken(String token, provider_cfg) {
-    log.debug("exchangeAuthCodeForToken(${token},${provider_cfg}");
+    log.debug("exchangeAuthCodeForToken(${token},${provider_cfg} ${params}");
 
     def user = [:]
     user.username="wibble"
 
     def jwt = createToken(user)
 
-    log.debug("Redirecting...");
-    redirect(url:'http://localhost:8081/?auth_token='+jwt);
+    log.debug("Redirecting..."+jwt);
+    redirect(url:'http://localhost:8081/?auth_token='+jwt+'&token_type=Bearer&client_id=UT3fEq5-vHLBqPmYvx8_pw&config=&expiry=1497272025&uid=53283');
   }
 
  private String createToken(user) {
@@ -138,7 +145,7 @@ class AuthController {
     // of a JsonWebEncryption object and set the cty (Content Type) header to "jwt".
     String jwt = jws.getCompactSerialization();
 
-    // log.debug("Created jwt : ${jwt}")
+    log.debug("Created jwt : ${jwt}")
     return jwt
   }
 
