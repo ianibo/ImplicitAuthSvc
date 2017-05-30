@@ -66,6 +66,19 @@ class AuthController {
     def response = [:]
 
     log.debug("Auth header: ${request.getHeader('Authorization')}");
+    def authorization_header = request.getHeader("Authorization")
+    if ( authorization_header ) {
+      log.debug("Got auth header");
+      def token = authorization_header.split(' ')[1];
+      def payload = publicKeyService.decodeJWT(token)
+      log.debug("Got payload \"${payload}\" subject:\"${payload?.subject}\" from ${token}");
+      log.debug("Got payload claims map \"${payload?.getClaimsMap()}\"");
+      def claims_as_map = payload?.getClaimsMap()
+      response.data=[:]
+      response.data.name=claims_as_map.displayName
+      response.data.uid=claims_as_map.sub
+    }
+
 
     // Docs says we send back auth info in cookie called authHeaders
     render response as JSON
@@ -172,15 +185,15 @@ class AuthController {
 
     // Create the Claims, which will be the content of the JWT
     JwtClaims claims = new JwtClaims()
-    claims.setIssuer("KIAuth")  // who creates the token and signs it
-    claims.setAudience("KIAuth") // to whom the token is intended to be sent
+    claims.setIssuer(publicKeyService.AUTH_AUD)  // who creates the token and signs it
+    claims.setAudience(publicKeyService.AUTH_AUD) // to whom the token is intended to be sent
     claims.setExpirationTimeMinutesInTheFuture(60*15) // time when the token will expire (60*15 minutes from now)
     claims.setGeneratedJwtId() // a unique identifier for the token
     claims.setIssuedAtToNow();  // when the token was issued/created (now)
     claims.setNotBeforeMinutesInThePast(2); // time before which the token is not yet valid (2 minutes ago)
     claims.setSubject(user.id); // the subject/principal is whom the token is about
     claims.setClaim("email",user.email); // additional claims/attributes about the subject can be added
-    claims.setClaim("displaName",user.displayName); // additional claims/attributes about the subject can be added
+    claims.setClaim("displayName",user.displayName); // additional claims/attributes about the subject can be added
     // List<String> groups = Arrays.asList("group-one", "other-group", "group-three");
     // claims.setStringListClaim("groups", groups); // multi-valued claims work too and will end up as a JSON array
 

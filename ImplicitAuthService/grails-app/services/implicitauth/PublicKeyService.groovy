@@ -21,6 +21,8 @@ class PublicKeyService {
   def grailsApplication
   def authcfgService
 
+  public static final String AUTH_AUD='KIAuth'
+
   @javax.annotation.PostConstruct
   def init() {
     log.debug("Init");
@@ -52,8 +54,8 @@ class PublicKeyService {
             .setRequireExpirationTime() // the JWT must have an expiration time
             .setAllowedClockSkewInSeconds(30) // allow some leeway in validating time based claims to account for clock skew
             .setRequireSubject() // the JWT must have a subject claim
-            .setExpectedIssuer("MonitorLocal")  // who creates the token and signs it
-            .setExpectedAudience("MonitorLocal") // to whom the token is intended to be sent
+            .setExpectedIssuer(AUTH_AUD)  // who creates the token and signs it
+            .setExpectedAudience(AUTH_AUD) // to whom the token is intended to be sent
             .setVerificationKey(rsaJsonWebKey.getKey()) // verify the signature with the public key
             .build(); // create the JwtConsumer instance
 
