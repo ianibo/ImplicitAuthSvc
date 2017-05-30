@@ -64,6 +64,10 @@ class AuthController {
   def validateToken() {
     log.debug("AuthController::validateToken() ${params}");
     def response = [:]
+
+    log.debug("Auth header: ${request.getHeader('Authorization')}");
+
+    // Docs says we send back auth info in cookie called authHeaders
     render response as JSON
   }
 
@@ -102,7 +106,9 @@ class AuthController {
     def jwt = createToken(user)
 
     log.debug("Redirecting..."+jwt);
-    redirect(url:'http://localhost:8081/?auth_token='+jwt+'&token_type=Bearer&client_id=UT3fEq5-vHLBqPmYvx8_pw&config=&expiry=1497272025&uid=53283');
+    redirect(url:'http://localhost:8081/?auth_token='+jwt+'&token_type=Bearer&client_id='+provider_cfg.clientId+
+                 '&config=&expiry=1497272025');
+                 // '&config=&expiry=1497272025&uid=53283');
   }
 
 
@@ -132,6 +138,11 @@ class AuthController {
 
         response.success = { r2, j2 ->
           log.debug("response: ${r2} ${j2}");
+          //response: [email:, family_name:, gender:, given_name:, id:, link:, locale:, name:, picture:, verified_email:]
+          user.displayName = j2.name
+          user.id='google:'+j2.id
+          user.email=j2.email
+          user.avatar=j2.picture
         }
         response.failure = { resp2, reader ->
           log.error("Failure result ${resp2.statusLine}")
@@ -143,7 +154,6 @@ class AuthController {
       log.error("Problem fetching user data",e);
     }
 
-    user.username="Wibble";
 
     return user
   }
@@ -168,8 +178,9 @@ class AuthController {
     claims.setGeneratedJwtId() // a unique identifier for the token
     claims.setIssuedAtToNow();  // when the token was issued/created (now)
     claims.setNotBeforeMinutesInThePast(2); // time before which the token is not yet valid (2 minutes ago)
-    claims.setSubject(user.username); // the subject/principal is whom the token is about
-    // claims.setClaim("email","mail@example.com"); // additional claims/attributes about the subject can be added
+    claims.setSubject(user.id); // the subject/principal is whom the token is about
+    claims.setClaim("email",user.email); // additional claims/attributes about the subject can be added
+    claims.setClaim("displaName",user.displayName); // additional claims/attributes about the subject can be added
     // List<String> groups = Arrays.asList("group-one", "other-group", "group-three");
     // claims.setStringListClaim("groups", groups); // multi-valued claims work too and will end up as a JSON array
 
