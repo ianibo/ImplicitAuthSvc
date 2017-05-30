@@ -9,6 +9,7 @@ import org.jose4j.jws.*
 
 
 
+
 /**
  *  Overall flow.
  *  Client asks for login, redux-oauth opens a popup to /auth/oauth/{provider} which arrives at redirectToIDP
@@ -17,6 +18,7 @@ import org.jose4j.jws.*
  *    the # prevents the JS app from detecting the TOKEN or passing it to the server
  *    so we dispatch a script which can then access the location.href.hash containing the token (callback#access_token=xxxxx)
  *  The script extracts the access_token and passes this back to the server which needs to create an auth_token from the access_token
+ *  Client gets completeAuth which consults the appropriate provider to get back user details and constructs a JWT
  *
  *  In the demo app, callback causes a redirect to a URL like
  *    auth_token=lMTuR3FqmBFHD0WD7URq9g&blank=true&client_id=UT3fEq5-vHLBqPmYvx8_pw&config=&expiry=1497272025&uid=53283 which is then picked up and used as the auth string
@@ -86,16 +88,67 @@ class AuthController {
   private def exchangeAuthCodeForToken(String token, provider_cfg) {
     log.debug("exchangeAuthCodeForToken(${token},${provider_cfg} ${params}");
 
-    def user = [:]
-    user.username="wibble"
+    def user = null;
+    // user.username="wibble"
+    switch ( provider_cfg.code ) {
+      case 'google':
+        user = processGoogle(token,provider_cfg);
+        break;
+      default:
+        break;
+    }
 
+    // Our response auth_token is a jwt containing user details
     def jwt = createToken(user)
 
     log.debug("Redirecting..."+jwt);
     redirect(url:'http://localhost:8081/?auth_token='+jwt+'&token_type=Bearer&client_id=UT3fEq5-vHLBqPmYvx8_pw&config=&expiry=1497272025&uid=53283');
   }
 
- private String createToken(user) {
+
+  private def processGoogle(String access_token, provider_cfg) {
+
+    def user = [:]
+
+    log.debug("processGoogle(${access_token},${provider_cfg})");
+
+    // get the URI to hit for obtaining meta-data about the user from the social API.
+    // google userinfo endpoint moving to  https://www.googleapis.com/plus/v1/people/{userId} and {userId} can be /me
+    def peopleUri = 'https://www.googleapis.com/oauth2/v1/userinfo'.toURI()
+
+    // Locate a user for...
+    def people_api = new HTTPBuilder(peopleUri.scheme + "://" + peopleUri.host)
+    people_api.ignoreSSLIssues()
+
+    try {
+      log.debug("Fetch the person data via the people URI -- ${peopleUri} api -- ${peopleUri?.scheme}://${peopleUri?.host} auth:${access_token}")
+
+      people_api.request(GET,groovyx.net.http.ContentType.JSON) { req ->
+
+        uri.path = peopleUri.path
+        //uri.query = auth_cfg.query
+        headers.'Authorization' = 'Bearer ' + access_token
+        headers.Accept = 'application/json'
+
+        response.success = { r2, j2 ->
+          log.debug("response: ${r2} ${j2}");
+        }
+        response.failure = { resp2, reader ->
+          log.error("Failure result ${resp2.statusLine}")
+          log.error(reader.text)
+        }
+      }
+    }
+    catch ( Exception e ) {
+      log.error("Problem fetching user data",e);
+    }
+
+    user.username="Wibble";
+
+    return user
+  }
+
+  private String createToken(user) {
 
     log.debug("Request seems to contain a legitimate user - create and sign a token for that user");
 
