@@ -4,10 +4,10 @@ import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 /**
- * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
+ * See the API for {@link grails.test.mixin.services.ServiceUnitTestMixin} for usage instructions
  */
-@TestFor(AuthController)
-class AuthControllerSpec extends Specification {
+@TestFor(AuthcfgService)
+class AuthcfgServiceSpec extends Specification {
 
     def setup() {
     }
@@ -16,6 +16,6 @@ class AuthControllerSpec extends Specification {
     }
 
     void "test something"() {
-      true
+        true
     }
 }

@@ -3,7 +3,7 @@ package implicitauth
 class OAuthAuthorizationService {
 
   static mapping = {
-    table name:"auth_service", schema:"authsvc"
+    table name:"auth_service"
   }
 
   String code
