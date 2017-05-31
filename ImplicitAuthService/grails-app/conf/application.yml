@@ -135,5 +135,50 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
-
+---
 authCfgFile: '/etc/kiauthcfg.yml'
+---
+grails:
+  plugin:
+    springsecurity:
+      userLookup:
+        userDomainClassName: 'implicitauth.User'
+        authorityJoinClassName: 'implicitauth.UserRole'
+      providerNames:
+#        - 'preAuthenticatedAuthenticationProvider'
+        - 'daoAuthenticationProvider'
+
+      ipRestrictions:
+        - 
+          pattern: '/internalApi/**'
+          access:
+            - '127.0.0.1'
+      authority:
+        className: 'implicitauth.Role'
+      controllerAnnotations:
+        # N.B. Static Rules need to be the name of the controller, not the mapped URL - so /aoGrant/** and NOT /grant/** or you'll get a 403.
+        staticRules:
+          -
+            pattern: '/auth/**'
+            access:
+              -
+                'permitAll'
+        chainMap:
+          -
+            pattern: '/assets/**'
+            filters: 'none'
+          -
+            pattern: '/**/js/**'
+            filters: 'none'
+          -
+            pattern: '/**/css/**'
+            filters: 'none'
+          -
+            pattern: '/**/images/**'
+            filters: 'none'
+          -
+            pattern: '/**/favicon.ico'
+            filters: 'none'
+          -
+            pattern: '/**'
+            filters: 'JOINED_FILTERS,-anonymousAuthenticationFilter,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter,-basicAuthenticationFilter,-basicExceptionTranslationFilter'
