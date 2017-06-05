@@ -33,7 +33,7 @@ public class JWTPreauthFilter extends org.springframework.security.web.authentic
     }
 
     try {
-      // log.debug("checking auth header");
+      log.debug("checking auth header");
       def authorization = request.getHeader("Authorization")
       if ( authorization ) {
         log.debug("Got auth header");
@@ -45,9 +45,9 @@ public class JWTPreauthFilter extends org.springframework.security.web.authentic
 
         if ( payload?.subject ) {
 
-          // log.debug("payload.subject present, attempting to locate user ${payload.subject}")
+          log.debug("payload.subject present, attempting to locate user ${payload.subject}")
 
-          // log.debug("Got user ${payload.subject} ${payload.subject.class}")
+          log.debug("Got user ${payload.subject} ${payload.subject.class}")
           result = payload.subject
 
 

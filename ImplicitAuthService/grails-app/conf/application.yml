@@ -145,7 +145,7 @@ grails:
         userDomainClassName: 'implicitauth.User'
         authorityJoinClassName: 'implicitauth.UserRole'
       providerNames:
-#        - 'preAuthenticatedAuthenticationProvider'
+        - 'preAuthenticatedAuthenticationProvider'
         - 'daoAuthenticationProvider'
 
       ipRestrictions:

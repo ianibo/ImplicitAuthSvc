@@ -116,7 +116,7 @@ class AuthController {
     }
 
     // Our response auth_token is a jwt containing user details
-    def jwt = createToken(user)
+    def jwt = createToken(user, provider_cfg.code)
 
     log.debug("Redirecting..."+jwt);
     redirect(url:'http://localhost:8081/?auth_token='+jwt+'&token_type=Bearer&client_id='+provider_cfg.clientId+
@@ -127,7 +127,7 @@ class AuthController {
 
   private def processGoogle(String access_token, provider_cfg) {
 
-    def user = [:]
+    def result = null;
 
     log.debug("processGoogle(${access_token},${provider_cfg})");
 
@@ -151,11 +151,39 @@ class AuthController {
 
         response.success = { r2, j2 ->
           log.debug("response: ${r2} ${j2}");
-          //response: [email:, family_name:, gender:, given_name:, id:, link:, locale:, name:, picture:, verified_email:]
-          user.displayName = j2.name
-          user.id='google:'+j2.id
-          user.email=j2.email
-          user.avatar=j2.picture
+
+      
+          SocialIdentity si = SocialIdentity.findByProviderAndReference('google',j2.id) 
+          if ( si == null ) {
+            log.debug("Unable to locate social identity for 'google' and ${j2.id}");
+            log.debug("Create user");
+
+            result = new implicitauth.User();
+            result.username=java.util.UUID.randomUUID().toString()
+            result.password=java.util.UUID.randomUUID().toString()
+            result.enabled=true
+            result.accountExpired=false
+            result.accountLocked=false
+            result.passwordExpired=false
+            result.localId=null
+            result.profilePic=j2.picture
+            result.email=j2.email
+            result.biography=null
+            result.name=j2.name
+
+            log.debug("Save new user: ${result} (${result.username} ${result.password})");
+            result.save(flush:true, failOnError:true);
+
+            log.debug("Create social identity");
+            si = new SocialIdentity(provider:'google', reference:j2.id, user:result).save(flush:true, failOnError:true);
+
+            log.debug("Allocate ROLE_USER to new user");
+            def role_user = Role.findByAuthority('ROLE_USER') ?: new Role(authority:'ROLE_USER');
+            def new_grant = new UserRole(role:role_user, user:result).save(flush:true, failOnError:true)
+          }
+          else {
+            result = si.user;
+          }
         }
         response.failure = { resp2, reader ->
           log.error("Failure result ${resp2.statusLine}")
@@ -168,10 +196,10 @@ class AuthController {
     }
 
 
-    return user
+    return result
   }
 
-  private String createToken(user) {
+  private String createToken(user, provider) {
 
     log.debug("Request seems to contain a legitimate user - create and sign a token for that user");
 
@@ -191,9 +219,9 @@ class AuthController {
     claims.setGeneratedJwtId() // a unique identifier for the token
     claims.setIssuedAtToNow();  // when the token was issued/created (now)
     claims.setNotBeforeMinutesInThePast(2); // time before which the token is not yet valid (2 minutes ago)
-    claims.setSubject(user.id); // the subject/principal is whom the token is about
+    claims.setSubject(user.username); // the subject/principal is whom the token is about
     claims.setClaim("email",user.email); // additional claims/attributes about the subject can be added
-    claims.setClaim("displayName",user.displayName); // additional claims/attributes about the subject can be added
+    claims.setClaim("displayName",user.name); // additional claims/attributes about the subject can be added
     // List<String> groups = Arrays.asList("group-one", "other-group", "group-three");
     // claims.setStringListClaim("groups", groups); // multi-valued claims work too and will end up as a JSON array
 

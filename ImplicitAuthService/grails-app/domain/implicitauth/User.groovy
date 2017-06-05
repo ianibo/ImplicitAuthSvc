@@ -104,7 +104,9 @@ class User implements Serializable {
   }
 
   static mapping = {
-    password column: '`password`'
+    table name:"ia_usr"
+    id: column: 'user_id'
+    password column: 'user_pw'
   }
   
 }
