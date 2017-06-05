@@ -163,11 +163,6 @@ grails:
             access:
               -
                 'permitAll'
-          -
-            pattern: '/ping/**'
-            access:
-              -
-                'permitAll'
         chainMap:
           -
             pattern: '/assets/**'
