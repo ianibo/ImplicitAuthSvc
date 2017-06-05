@@ -2,7 +2,6 @@ package implicitauth
 
 import implicitauth.OAuthAuthorizationService
 
-import com.k_int.grails.tools.rules.RulesService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.SecurityFilterPosition
 
