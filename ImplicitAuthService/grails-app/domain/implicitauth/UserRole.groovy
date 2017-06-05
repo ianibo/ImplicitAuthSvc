@@ -2,6 +2,8 @@ package implicitauth
 
 import groovy.transform.ToString
 import org.apache.commons.lang.builder.HashCodeBuilder
+import grails.gorm.DetachedCriteria
+
 
 
 class UserRole implements Serializable {
@@ -49,6 +51,18 @@ class UserRole implements Serializable {
 
 		rowCount
 	}
+
+  static boolean exists(long userId, long roleId) {
+    criteriaFor(userId, roleId).count()
+  }
+
+  private static DetachedCriteria criteriaFor(long userId, long roleId) {
+    UserRole.where {
+      user == User.load(userId) &&
+      role == Role.load(roleId)
+    }
+  }
+
 
 	static void removeAll(User u, boolean flush = false) {
 		if (u == null) return

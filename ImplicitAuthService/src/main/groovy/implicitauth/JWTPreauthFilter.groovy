@@ -47,7 +47,7 @@ public class JWTPreauthFilter extends org.springframework.security.web.authentic
 
           log.debug("payload.subject present, attempting to locate user ${payload.subject}")
 
-          log.debug("Got user ${payload.subject} ${payload.subject.class}")
+          log.debug("Got user subject:${payload.subject} cls:${payload.subject.class}")
           result = payload.subject
 
 
