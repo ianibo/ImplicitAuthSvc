@@ -36,6 +36,12 @@ If you are running postgres locally sudo su - postgres
 Once connected, issue
 
 CREATE USER knowint WITH PASSWORD 'knowint';
+DROP DATABASE authsvc;
+CREATE DATABASE authsvc;
+GRANT ALL PRIVILEGES ON DATABASE authsvc to knowint;
+
+
+-- older
 DROP DATABASE authsvcdev;
 CREATE DATABASE authsvcdev;
 GRANT ALL PRIVILEGES ON DATABASE authsvcdev to knowint;
