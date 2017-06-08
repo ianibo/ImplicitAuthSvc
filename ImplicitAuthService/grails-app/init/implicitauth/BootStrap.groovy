@@ -29,6 +29,10 @@ class BootStrap {
                                     redirectUrl:'http://localhost:8080/auth/oauth/google/callback',
                                     clientId:'452432600734-gg239i5odhfki1lhpt7c01pfir3267ol.apps.googleusercontent.com',
                                     responseType:'token').save(flush:true, failOnError:true);
+
+    Role.list().each { role ->
+      log.debug("Role: ${role}");
+    }
   }
 
   def destroy = {

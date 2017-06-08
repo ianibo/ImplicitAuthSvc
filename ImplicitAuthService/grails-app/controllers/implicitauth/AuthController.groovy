@@ -161,7 +161,7 @@ class AuthController {
             result = new implicitauth.User();
             result.username=java.util.UUID.randomUUID().toString()
             // Should really generate a slug here from the j2.name
-            result.uriname=result.username
+            result.uriName=result.username
             result.password=java.util.UUID.randomUUID().toString()
             result.enabled=true
             result.accountExpired=false
