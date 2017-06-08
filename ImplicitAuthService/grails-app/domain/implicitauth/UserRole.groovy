@@ -86,7 +86,7 @@ class UserRole implements Serializable {
   }
 
   static mapping = {
-    table 'ia_user_role', schema:'authsvc'
+    table name:'ia_user_role'
     id composite: ['user', 'role']
     version false
     user column:'ur_user'

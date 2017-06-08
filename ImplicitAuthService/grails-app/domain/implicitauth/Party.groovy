@@ -11,7 +11,7 @@ class Party {
   String displayName
 
   static mapping = {
-    table name:'party', schema:'authsvc'
+    table name:'ia_party'
     tablePerHierarchy false
     id column:'p_id'
     version column:'p_version'

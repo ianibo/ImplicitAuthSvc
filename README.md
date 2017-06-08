@@ -38,7 +38,9 @@ Once connected, issue
 CREATE USER knowint WITH PASSWORD 'knowint';
 DROP DATABASE authsvc;
 CREATE DATABASE authsvc;
+CREATE SCHEMA authsvc;
 GRANT ALL PRIVILEGES ON DATABASE authsvc to knowint;
+GRANT ALL PRIVILEGES ON SCHEMA authsvc to knowint;
 
 
 -- older

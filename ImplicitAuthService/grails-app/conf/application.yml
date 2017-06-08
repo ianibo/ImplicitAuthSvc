@@ -104,7 +104,7 @@ environments:
             username: knowint
             password: knowint
             driverClassName: org.postgresql.Driver
-            dialect: org.hibernate.dialect.PostgreSQLDialect
+            dialect: org.hibernate.dialect.PostgreSQL82Dialect
     test:
         dataSource:
             dbCreate: update
@@ -116,7 +116,7 @@ environments:
             username: knowint
             password: knowint
             driverClassName: org.postgresql.Driver
-            dialect: org.hibernate.dialect.PostgreSQLDialect
+            dialect: org.hibernate.dialect.PostgreSQL82Dialect
             properties:
                 jmxEnabled: true
                 initialSize: 5
