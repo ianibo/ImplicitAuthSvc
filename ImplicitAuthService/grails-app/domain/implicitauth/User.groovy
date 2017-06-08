@@ -10,7 +10,9 @@ import java.util.Map;
 
 import javax.persistence.Transient
 
-class User implements Serializable {
+@EqualsAndHashCode(includes='username')
+@ToString(includes='username', includeNames=true, includePackage=false)
+class User extends Party implements Serializable {
 
   private static final long serialVersionUID = 1
 
