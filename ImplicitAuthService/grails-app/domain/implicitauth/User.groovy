@@ -29,7 +29,6 @@ class User extends Party implements Serializable {
   String profilePic
   String email
   String biography
-  String name
 
   Set socialIdentities = []
   
@@ -71,8 +70,8 @@ class User extends Party implements Serializable {
   }
   
   def beforeValidate() {
-    if (!name) {
-      name = username
+    if (!displayName) {
+      displayName = username
     }
   }
 
@@ -93,7 +92,6 @@ class User extends Party implements Serializable {
     password blank: false, bindable: false
     profilePic blank: true, nullable:true, bindable: false
     email blank: true, nullable:true
-    name blank: true, nullable:true, bindable: true
     biography blank: true, nullable:true, bindable: false
     localId blank: true, nullable:true, bindable: false
     

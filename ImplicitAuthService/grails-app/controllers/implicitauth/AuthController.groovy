@@ -160,6 +160,8 @@ class AuthController {
 
             result = new implicitauth.User();
             result.username=java.util.UUID.randomUUID().toString()
+            // Should really generate a slug here from the j2.name
+            result.uriname=result.username
             result.password=java.util.UUID.randomUUID().toString()
             result.enabled=true
             result.accountExpired=false
@@ -169,7 +171,7 @@ class AuthController {
             result.profilePic=j2.picture
             result.email=j2.email
             result.biography=null
-            result.name=j2.name
+            result.displayName=j2.name
 
             log.debug("Save new user: ${result} (${result.username} ${result.password})");
             result.save(flush:true, failOnError:true);
@@ -221,7 +223,7 @@ class AuthController {
     claims.setNotBeforeMinutesInThePast(2); // time before which the token is not yet valid (2 minutes ago)
     claims.setSubject(user.username); // the subject/principal is whom the token is about
     claims.setClaim("email",user.email); // additional claims/attributes about the subject can be added
-    claims.setClaim("displayName",user.name); // additional claims/attributes about the subject can be added
+    claims.setClaim("displayName",user.displayName); // additional claims/attributes about the subject can be added
     // List<String> groups = Arrays.asList("group-one", "other-group", "group-three");
     // claims.setStringListClaim("groups", groups); // multi-valued claims work too and will end up as a JSON array
 
