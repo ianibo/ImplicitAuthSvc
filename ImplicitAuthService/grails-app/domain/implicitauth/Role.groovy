@@ -20,8 +20,7 @@ class Role implements Serializable {
 
   static mapping = {
     cache true
-    table name:'ia_role'
-    // cache true
+    table name:'ia_role', schema:'authsvc'
   }
 
 }

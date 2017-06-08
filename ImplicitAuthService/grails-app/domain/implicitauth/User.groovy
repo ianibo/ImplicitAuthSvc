@@ -106,7 +106,7 @@ class User extends Party implements Serializable {
   }
 
   static mapping = {
-    table name:"ia_usr"
+    table name:"ia_usr", schema:'authsvc'
     id: column: 'user_id'
     password column: 'user_pw'
   }

@@ -16,6 +16,7 @@ class SocialIdentity {
   }
 
   static mapping = {
+    table name:'social_identity', schema:'authsvc'
     provider column: 'provider'
     reference column: 'reference'
     password column: 'pwd'

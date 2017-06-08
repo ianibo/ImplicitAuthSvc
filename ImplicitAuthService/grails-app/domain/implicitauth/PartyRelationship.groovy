@@ -24,7 +24,7 @@ class PartyRelationship {
   String status
 
   static mapping = {
-    table name:'party_relationship' 
+    table name:'party_relationship', schema:'authsvc'
     id column:'pr_id'
     version column:'pr_version'
     from column:'p_from'
