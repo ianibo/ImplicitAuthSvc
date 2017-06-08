@@ -11,6 +11,7 @@ class Party {
   String displayName
 
   static mapping = {
+    table name:'party'
     tablePerHierarchy false
     id column:'p_id'
     version column:'p_version'

@@ -5,20 +5,23 @@ import groovy.transform.ToString
 
 class Role implements Serializable {
 
-	private static final long serialVersionUID = 1
+  private static final long serialVersionUID = 1
 
-	String authority
+  String authority
 
-	Role(String authority) {
-		this()
-		this.authority = authority
-	}
+  Role(String authority) {
+    this()
+    this.authority = authority
+  }
 
-	static constraints = {
-		authority blank: false, unique: true
-	}
+  static constraints = {
+    authority blank: false, unique: true
+  }
 
-	static mapping = {
-		cache true
-	}
+  static mapping = {
+    cache true
+    table name:'ia_role'
+    // cache true
+  }
+
 }
