@@ -36,23 +36,30 @@ If you are running postgres locally sudo su - postgres
 Once connected, issue
 
 CREATE USER knowint WITH PASSWORD 'knowint';
-DROP DATABASE authsvc;
-CREATE DATABASE authsvc;
+CREATE DATABASE knowint;
+GRANT ALL PRIVILEGES ON DATABASE knowint to knowint;
+
+CREATE USER authsvc WITH PASSWORD 'authsvc';
 CREATE SCHEMA authsvc;
-GRANT ALL PRIVILEGES ON DATABASE authsvc to knowint;
-GRANT ALL PRIVILEGES ON SCHEMA authsvc to knowint;
+GRANT ALL PRIVILEGES ON SCHEMA authsvc to authsvc;
+ALTER USER authsvc set search_path = 'authsvc','public';
 
 
--- older
-DROP DATABASE authsvcdev;
-CREATE DATABASE authsvcdev;
-GRANT ALL PRIVILEGES ON DATABASE authsvcdev to knowint;
-CREATE DATABASE authsvcdemo;
-GRANT ALL PRIVILEGES ON DATABASE authsvcdemo to knowint;
+-- This setup will create a database called knowint with a schema called authsvc. Other user accounts will be able to be created
+in the same database but different schemas - allowing visibility of the schema if needed. If is anticipated that other service components,
+for example "svc1" will do something like
+
+CREATE USER svc1 WITH PASSWORD 'svc1';
+CREATE SCHEMA svc1;
+GRANT ALL PRIVILEGES ON SCHEMA authsvc to svc1;
+GRANT ALL PRIVILEGES ON SCHEMA svc1 to svc1;
+ALTER USER authsvc set search_path = 'svc1', 'authsvc','public';
+
+To allow svc1 to see it's own tables, and the auth tables. Obviously, the grant might be read only or restricted to specific tables
 
 DB Session usually checked with
 
-psql -h localhost -U knowint authsvcdev
+psql -h localhost -U authsvc knowint
 
 # Installing authorization services in the database
 
@@ -63,3 +70,7 @@ values ( "google", "https://accounts.google.com/o/oauth2/v2/auth",
 "token", 
 "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"); 
 
+
+Some info on how to share tables between schemas::
+
+https://stackoverflow.com/questions/8283474/how-to-share-a-table-between-multiple-postgresql-databases

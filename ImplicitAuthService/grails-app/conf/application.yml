@@ -100,9 +100,9 @@ environments:
     development:
         dataSource:
             dbCreate: update
-            url: jdbc:postgresql://pghost:5432/authsvc
-            username: knowint
-            password: knowint
+            url: jdbc:postgresql://pghost:5432/knowint
+            username: authsvc
+            password: authsvc
             driverClassName: org.postgresql.Driver
             dialect: org.hibernate.dialect.PostgreSQL82Dialect
     test:
@@ -112,9 +112,9 @@ environments:
     production:
         dataSource:
             dbCreate: update
-            url: jdbc:postgresql://pghost:5432/authsvc
-            username: knowint
-            password: knowint
+            url: jdbc:postgresql://pghost:5432/knowint
+            username: authsvc
+            password: authsvc
             driverClassName: org.postgresql.Driver
             dialect: org.hibernate.dialect.PostgreSQL82Dialect
             properties:
