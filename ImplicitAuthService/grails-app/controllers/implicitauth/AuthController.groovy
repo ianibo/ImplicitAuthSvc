@@ -6,8 +6,8 @@ import static groovyx.net.http.Method.GET
 import org.jose4j.jwk.*
 import org.jose4j.jwt.*
 import org.jose4j.jws.*
-
-
+import javax.servlet.http.Cookie
+import java.net.URLEncoder
 
 
 /**
@@ -117,6 +117,19 @@ class AuthController {
 
     // Our response auth_token is a jwt containing user details
     def jwt = createToken(user, provider_cfg.code)
+
+    // redux-oauth would like us to set an authHeaders cookie so that we can store the token
+    // Assuming the controller lets this private method access the response object for this request
+    log.debug("Set authHeaders cookie with json document containing info about the token");
+    def auth_headers_data = [
+      auth_token:jwt,
+      token_type:'Bearer',
+      client_id:provider_cfg.clientId
+    ]
+    def auth_headers_as_json = auth_headers_data as JSON
+    Cookie cookie = new Cookie( "authHeadersTest", URLEncoder.encode(auth_headers_as_json.toString()) );
+    cookie.maxAge = 315360000000L
+    response.addCookie( cookie )
 
     log.debug("Redirecting..."+jwt);
     redirect(url:'http://localhost:8081/?auth_token='+jwt+'&token_type=Bearer&client_id='+provider_cfg.clientId+
