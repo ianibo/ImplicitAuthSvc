@@ -27,7 +27,8 @@ dependencies {
     compile "org.grails:grails-core"
     console "org.grails:grails-console"
 
-    runtime "compile 'org.grails.plugins:spring-security-core:3.1.2'
+    // compile 'org.grails.plugins:spring-security-core:3.1.2'
+    compile 'commons-lang:commons-lang:2.6'
 
     profile "org.grails.profiles:plugin"
     provided "org.grails:grails-plugin-services"

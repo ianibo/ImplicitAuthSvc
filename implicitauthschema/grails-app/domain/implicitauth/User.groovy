@@ -1,7 +1,6 @@
 package implicitauth
 
-import grails.plugin.springsecurity.SpringSecurityService
-import grails.rest.Resource
+// import grails.plugin.springsecurity.SpringSecurityService
 import grails.util.Holders
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
@@ -82,7 +81,8 @@ class User extends Party implements Serializable {
   }
 
   protected void encodePassword() {
-    password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
+    // password = springSecurityService?.passwordEncoder ? springSecurityService.encodePassword(password) : password
+    password
   }
 
   static transients = ['springSecurityService', 'verified', 'roles', 'authorities']

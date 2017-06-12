@@ -1,6 +1,6 @@
 package implicitauth
 
-class OAuthAuthorizationService {
+class OAuthAuthorizationSvcDefn {
 
   static mapping = {
     table name:"ia_auth_service"

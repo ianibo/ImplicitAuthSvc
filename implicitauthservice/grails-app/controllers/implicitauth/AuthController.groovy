@@ -38,7 +38,7 @@ class AuthController {
     log.debug("AuthController::redirectToIDP() ${params}");
 
     if ( params.provider ) {
-      def authorization_svc = OAuthAuthorizationService.findByCode(params.provider)
+      def authorization_svc = OAuthAuthorizationSvcDefn.findByCode(params.provider)
 
       if ( authorization_svc ) {
         redirect(url:authorization_svc.baseUrl+
@@ -89,7 +89,7 @@ class AuthController {
     def response = [:]
 
     if ( ( params.provider?.length() > 0 )  && ( params.access_token?.length() > 0 ) ) {
-      def authorization_svc = OAuthAuthorizationService.findByCode(params.provider)
+      def authorization_svc = OAuthAuthorizationSvcDefn.findByCode(params.provider)
       if ( authorization_svc != null ) {
         def token_result = exchangeAuthCodeForToken(params.access_token,authorization_svc)
       }

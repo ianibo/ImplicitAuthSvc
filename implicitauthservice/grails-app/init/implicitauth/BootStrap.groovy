@@ -1,6 +1,6 @@
 package implicitauth
 
-import implicitauth.OAuthAuthorizationService
+import implicitauth.OAuthAuthorizationSvcDefn
 
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.SecurityFilterPosition
@@ -37,8 +37,8 @@ class BootStrap {
       log.debug("Auth svc ${svcdef}");
     }
 
-    def google_prov = OAuthAuthorizationService.findByCode('google') ?:
-      new OAuthAuthorizationService(code:'google',
+    def google_prov = OAuthAuthorizationSvcDefn.findByCode('google') ?:
+      new OAuthAuthorizationSvcDefn(code:'google',
                                     baseUrl:'https://accounts.google.com/o/oauth2/v2/auth',
                                     scope:'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/plus.login',
                                     redirectUrl:'http://localhost:8080/auth/oauth/google/callback',
