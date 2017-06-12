@@ -17,6 +17,7 @@ class SocialIdentity {
 
   static mapping = {
     table name:'ia_social_identity'
+    user column: 'user_fk'
     provider column: 'provider'
     reference column: 'reference'
     password column: 'pwd'

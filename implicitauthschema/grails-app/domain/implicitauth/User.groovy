@@ -15,7 +15,7 @@ class User extends Party implements Serializable {
 
   private static final long serialVersionUID = 1
 
-  transient springSecurityService
+  // transient springSecurityService
 
   String username
   String password
@@ -29,8 +29,6 @@ class User extends Party implements Serializable {
   String email
   String biography
 
-  Set socialIdentities = []
-  
   static hasMany = [
     socialIdentities : SocialIdentity
   ]
@@ -85,7 +83,8 @@ class User extends Party implements Serializable {
     password
   }
 
-  static transients = ['springSecurityService', 'verified', 'roles', 'authorities']
+  // static transients = ['springSecurityService', 'verified', 'roles', 'authorities']
+  static transients = [ 'verified', 'roles', 'authorities']
 
   static constraints = {
     username blank: false, unique: true, bindable: false
