@@ -44,6 +44,14 @@ CREATE SCHEMA authsvc;
 GRANT ALL PRIVILEGES ON SCHEMA authsvc to authsvc;
 ALTER USER authsvc set search_path = 'authsvc','public';
 
+# For demo service
+CREATE USER demosvc WITH PASSWORD 'demosvc';
+CREATE SCHEMA demosvc;
+GRANT ALL PRIVILEGES ON SCHEMA authsvc to authsvc;
+GRANT ALL PRIVILEGES ON SCHEMA demosvc to demosvc;
+ALTER USER demosvc set search_path = 'demosvc', 'authsvc','public';
+
+
 
 -- This setup will create a database called knowint with a schema called authsvc. Other user accounts will be able to be created
 in the same database but different schemas - allowing visibility of the schema if needed. If is anticipated that other service components,
