@@ -50,10 +50,14 @@ dependencies {
     compile 'org.grails.plugins:spring-security-core:3.1.2'
     compile "org.springframework.security:spring-security-core:4.2.2.RELEASE"
     compile "org.springframework.security:spring-security-web:4.2.2.RELEASE"
+    compile "org.bitbucket.b_c:jose4j:0.4.2"
+
 
     console "org.grails:grails-console"
     profile "org.grails.profiles:rest-api"
     runtime "com.h2database:h2"
+    runtime "postgresql:postgresql:9.1-901-1.jdbc4"
+
     testCompile "org.grails:grails-plugin-testing"
     testCompile "org.grails.plugins:geb"
     testCompile "org.grails:grails-datastore-rest-client"
