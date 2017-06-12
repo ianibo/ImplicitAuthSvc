@@ -25,11 +25,11 @@ repositories {
     maven { url "https://repo.grails.org/grails/core" }
 }
 
-grails {
-  plugins {
-    compile project(':implicitauthschema')
-  }
-}
+// grails {
+//   plugins {
+//     compile project(':implicitauthschema')
+//   }
+// }
 
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-logging"
