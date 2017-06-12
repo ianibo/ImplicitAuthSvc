@@ -1,10 +1,12 @@
 package implicitauth
 
+
 import groovy.util.logging.Log4j
 
 import org.jose4j.jwt.*
 import org.springframework.security.core.*
 import org.springframework.security.core.context.SecurityContextHolder
+import implicitauth.schema.*;
 
 @Log4j
 public class JWTPreauthFilter extends org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter {

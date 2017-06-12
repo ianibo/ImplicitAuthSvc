@@ -13,6 +13,8 @@ import org.jose4j.jwt.*
 import org.jose4j.jwt.consumer.*
 import org.jose4j.jws.*
 import grails.transaction.Transactional
+import implicitauth.schema.*;
+
 
 @Transactional
 class PublicKeyService {

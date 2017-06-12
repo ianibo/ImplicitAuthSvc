@@ -2,6 +2,8 @@ package implicitauth
 
 import grails.converters.JSON;
 import grails.plugin.springsecurity.annotation.Secured
+import implicitauth.schema.*;
+
 
 
 class PingController {

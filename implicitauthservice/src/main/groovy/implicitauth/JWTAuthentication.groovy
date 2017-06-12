@@ -3,6 +3,8 @@ package implicitauth
 import org.springframework.security.core.*;
 import org.jose4j.jwt.*
 import org.springframework.security.core.authority.SimpleGrantedAuthority
+import implicitauth.schema.*;
+
 
 public class JWTAuthentication implements Authentication {
 

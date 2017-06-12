@@ -1,9 +1,9 @@
 package implicitauth
 
-import implicitauth.OAuthAuthorizationSvcDefn
-
 import grails.plugin.springsecurity.SpringSecurityUtils
 import grails.plugin.springsecurity.SecurityFilterPosition
+import implicitauth.schema.*;
+
 
 class BootStrap {
 

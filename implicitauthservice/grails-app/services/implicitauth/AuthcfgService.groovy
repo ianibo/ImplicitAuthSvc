@@ -5,6 +5,8 @@ import grails.transaction.Transactional
 import org.grails.config.PropertySourcesConfig
 import org.grails.config.yaml.YamlPropertySourceLoader
 import org.springframework.core.io.FileSystemResource
+import implicitauth.schema.*;
+
 
 
 @Transactional

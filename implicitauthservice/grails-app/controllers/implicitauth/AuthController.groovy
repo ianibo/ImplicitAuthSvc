@@ -8,6 +8,8 @@ import org.jose4j.jwt.*
 import org.jose4j.jws.*
 import javax.servlet.http.Cookie
 import java.net.URLEncoder
+import implicitauth.schema.*;
+
 
 
 /**
@@ -171,7 +173,7 @@ class AuthController {
             log.debug("Unable to locate social identity for 'google' and ${j2.id}");
             log.debug("Create user");
 
-            result = new implicitauth.User();
+            result = new implicitauth.schema.User();
             result.username=java.util.UUID.randomUUID().toString()
             // Should really generate a slug here from the j2.name
             result.uriName=result.username
