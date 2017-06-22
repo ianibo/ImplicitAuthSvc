@@ -40,11 +40,11 @@ class User extends Party implements Serializable {
     socialIdentities : 'user'
   ]
 
-  User(String username, String password) {
-    this()
-    this.username = username
-    this.password = password
-  }
+  // User(String username, String password) {
+  //   this()
+  //   this.username = username
+  //   this.password = password
+  // }
   
   Set<UserRole> getRoles() {
     UserRole.findAllByUser(this)
