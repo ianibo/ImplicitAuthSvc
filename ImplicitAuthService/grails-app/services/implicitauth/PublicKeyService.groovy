@@ -29,9 +29,12 @@ class PublicKeyService {
   }
 
   def getAppPublicKey() {
+
+    log.debug("[implicitauth] PublicKeyService::getAppPublicKey");
+
     // See if the app has a public key, if not generate one and store it
     if ( thekey == null ) {
-      log.debug("Creating public key");
+      log.debug("[implicitauth] Creating public key");
       Map<String, Object> keyparams = authcfgService.cfg.kiauth_jwk
       thekey = new org.jose4j.jwk.RsaJsonWebKey(keyparams)
     }

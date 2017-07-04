@@ -15,7 +15,7 @@ class AuthcfgService {
 
   @javax.annotation.PostConstruct
   def init() {
-    log.debug("Init looking for config in ${grailsApplication.config.authCfgFile}");
+    log.debug("[implicitauth] Init looking for config in ${grailsApplication.config.authCfgFile}");
 
     def resource = new FileSystemResource(new File(grailsApplication.config.authCfgFile))
     def mapPropertySource = new YamlPropertySourceLoader().load( grailsApplication.config.authCfgFile, resource, null/*profile*/)
